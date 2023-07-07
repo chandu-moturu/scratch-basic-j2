@@ -8,8 +8,9 @@ const Home = () => {
   const [hide, setHide] = useState(false);
   const [size, setSize] = useState(1);
   const [items, setItems] = useState([]);
+  const [items2, setItems2] = useState([]);
   const [widgets, setWidgets] = useState([]);
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(0);
 
   const styles = {
     transform: `rotate(${angle}deg)` + `translate(${pos}px)` + `scale(${size})`,
@@ -48,9 +49,16 @@ const Home = () => {
       case "message":
         alert(`broadcast...`);
         break;
+      case "reset":
+        setPos(0);
+        break;
       default:
         break;
     }
+  };
+
+  const handleToggleChange = (event) => {
+    setToggle(Number(event.target.value));
   };
 
   const handleDragStart = (e, id) => {
@@ -65,9 +73,13 @@ const Home = () => {
     var element = document.getElementById(childId);
     // var targetarea = document.getElementById(id);
     // console.log(childId)
-    // console.log(id)
-
-    items.push(element);
+    console.log(id);
+    if (id === "drop-target1") {
+      items.push(element);
+    }
+    if (id === "drop-target2") {
+      items2.push(element);
+    }
     setWidgets(element);
 
     var clonedElement = element.cloneNode(true);
@@ -78,8 +90,15 @@ const Home = () => {
   };
 
   const handleRun = () => {
+    let item;
+    console.log(toggle);
     for (let i = 0; i < items.length; i++) {
-      const item = items[i];
+      if (toggle === 0) {
+        item = items[i];
+      }
+      if (toggle === 1) {
+        item = items2[i];
+      }
 
       if (item.id === "drag1") {
         setTimeout(() => {
@@ -124,6 +143,11 @@ const Home = () => {
       if (item.id === "drag9") {
         setTimeout(() => {
           alert(`broadcast...`);
+        }, i * 1000);
+      }
+      if (item.id === "drag10") {
+        setTimeout(() => {
+          setPos(0);
         }, i * 1000);
       }
     }
@@ -223,6 +247,16 @@ const Home = () => {
           >
             {"Broadcast"}
           </div>
+          <div
+            draggable
+            id="drag10"
+            onDragStart={(e) => handleDragStart(e, e.target.id)}
+            className="drag-items4"
+            name="reset"
+            onClick={handleClick}
+          >
+            {"Reset"}
+          </div>
         </div>
       </div>
 
@@ -230,20 +264,31 @@ const Home = () => {
 
       <div className="middle-container" id="middle-drop">
         <button onClick={handleRun}>run</button>
+        <select
+          name="toggle"
+          id="x"
+          value={toggle}
+          onChange={handleToggleChange}
+        >
+          <option value={0}>List 1</option>
+          <option value={1}>List 2</option>
+        </select>
         <div
-          onClick={()=>setToggle(!toggle)}
           onDragOver={handleDragOver}
           id="drop-target1"
-          onDrop={handleDrop}
+          onDrop={(e) => handleDrop(e, e.target.id)}
           className="droppable"
-        ></div>
+        >
+          list1
+        </div>
         <div
-          onClick={()=>setToggle(!toggle)}
           onDragOver={handleDragOver}
           id="drop-target2"
-          onDrop={handleDrop}
+          onDrop={(e) => handleDrop(e, e.target.id)}
           className="droppable"
-        ></div>
+        >
+          list2
+        </div>
       </div>
 
       {/* right-container  */}

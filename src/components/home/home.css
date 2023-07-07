@@ -64,6 +64,9 @@
     border-radius:10px ;
     
   }
+  .middle-container button{
+     margin:5px;
+  }
   .droppable
   {
     margin-top: 20px;
@@ -89,8 +92,4 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.right-container button{
-    position:relative;
-
 }
