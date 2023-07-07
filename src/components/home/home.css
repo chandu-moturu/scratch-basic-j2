@@ -4,22 +4,45 @@
 .left-container{
     width: 20%;
     padding-left: 12px;
+    
     height: 90vh;
     border: solid 2px white;
     border-radius:10px ;
     margin-right: 5px;
     display: flex;
+    flex-direction: column;
     
 }
-.drag-items{
+.drag-items1{
     background-color: violet;
+    color: black;
+    width:80%;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.drag-items2{
+    background-color: red;
+    color: black;
     width: 80%;
     margin: 10px;
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;
 }
-.drag-items1{
+
+.drag-items3{
+    background-color: aqua;
+    color: black;
+    width: 80%;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.drag-items4{
     background-color: yellow;
     color: black;
     width: 80%;
@@ -28,23 +51,12 @@
     border-radius: 5px;
     cursor: pointer;
 }
-
-.drag-items2{
-    background-color: greenyellow;
-    color: black;
-    width: 80%;
-    margin: 10px;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-input{
-    border-radius: 5px;
-    padding: 2px;
-    margin: 2px;
+.drag-items1 .drag-items2 .drag-items3 .drag-items4 :hover{
+    padding: 10px;
 }
 
 .middle-container {
+    
     padding-left: 60px;
     width: 50%;
     height: 90vh;
@@ -54,10 +66,19 @@ input{
   }
   .droppable
   {
-    width:100%;
-    height:50vh;
+    margin-top: 20px;
+    padding: 5px;
+    width:40%;
+    min-height: 40px;
+    height: fit-content;
+    border: solid 1px blue;
+    border-radius: 10px;
+   
   }
-
+#drop-target2{
+    margin-left: 260px;
+    
+  }
 
   .right-container{
     width: 50%;

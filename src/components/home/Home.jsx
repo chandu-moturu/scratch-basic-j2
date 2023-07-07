@@ -7,8 +7,10 @@ const Home = () => {
   const [pos, setPos] = useState(0);
   const [hide, setHide] = useState(false);
   const [size, setSize] = useState(1);
-  const [message, setMessage] = useState("");
-  const [items,setItems] =useState([])
+  const [items, setItems] = useState([]);
+  const [widgets, setWidgets] = useState([]);
+  const [toggle, setToggle] = useState(false);
+
   const styles = {
     transform: `rotate(${angle}deg)` + `translate(${pos}px)` + `scale(${size})`,
     position: "relative",
@@ -17,14 +19,19 @@ const Home = () => {
 
   const handleClick = (e) => {
     const value = e.target.getAttribute("name");
- 
 
     switch (value) {
-      case "movex":
-        setPos(pos ? pos : 15);
+      case "forward":
+        setPos(pos + 15);
         break;
-      case "rotate":
-        setAngle(angle ? angle : 15);
+      case "backward":
+        setPos(pos - 15);
+        break;
+      case "clockwise":
+        setAngle(angle + 15);
+        break;
+      case "anticlockwise":
+        setAngle(angle - 15);
         break;
       case "hide":
         setHide(true);
@@ -32,11 +39,14 @@ const Home = () => {
       case "show":
         setHide(false);
         break;
-      case "size":
-        setSize(size ? size :2);
+      case "scaleup":
+        setSize(size + 1);
+        break;
+      case "scaledown":
+        setSize(size - 1);
         break;
       case "message":
-        alert(`broadcast...${message}`);
+        alert(`broadcast...`);
         break;
       default:
         break;
@@ -47,18 +57,76 @@ const Home = () => {
     e.dataTransfer.setData("text", id);
   };
 
- 
   const handleDragOver = (e) => {
     e.preventDefault();
   };
-  const handleDrop = (e) => {
-    const childId = e.dataTransfer.getData("text");
-    console.log(childId)
-    const element = document.getElementById(childId)
-    console.log(element)
+  const handleDrop = (e, id) => {
+    var childId = e.dataTransfer.getData("Text");
+    var element = document.getElementById(childId);
+    // var targetarea = document.getElementById(id);
+    // console.log(childId)
+    // console.log(id)
 
-    setItems((prevItems) => [...prevItems, element]);
-    
+    items.push(element);
+    setWidgets(element);
+
+    var clonedElement = element.cloneNode(true);
+    clonedElement.addEventListener("click", handleClick);
+    e.target.appendChild(clonedElement);
+
+    targetarea.style.width = "fit-content";
+  };
+
+  const handleRun = () => {
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+
+      if (item.id === "drag1") {
+        setTimeout(() => {
+          setPos((prevPos) => prevPos + 15);
+        }, i * 1000);
+      }
+      if (item.id === "drag2") {
+        setTimeout(() => {
+          setPos((prevPos) => prevPos - 15);
+        }, i * 1000);
+      }
+      if (item.id === "drag3") {
+        setTimeout(() => {
+          setAngle((prevAngle) => prevAngle + 15);
+        }, i * 1000);
+      }
+      if (item.id === "drag4") {
+        setTimeout(() => {
+          setAngle((prevAngle) => prevAngle - 15);
+        }, i * 1000);
+      }
+      if (item.id === "drag5") {
+        setTimeout(() => {
+          setHide(true);
+        }, i * 1000);
+      }
+      if (item.id === "drag6") {
+        setTimeout(() => {
+          setHide(false);
+        }, i * 1000);
+      }
+      if (item.id === "drag7") {
+        setTimeout(() => {
+          setSize((prevSize) => prevSize + 1);
+        }, i * 1000);
+      }
+      if (item.id === "drag8") {
+        setTimeout(() => {
+          setSize((prevSize) => prevSize - 1);
+        }, i * 1000);
+      }
+      if (item.id === "drag9") {
+        setTimeout(() => {
+          alert(`broadcast...`);
+        }, i * 1000);
+      }
+    }
   };
 
   return (
@@ -69,38 +137,47 @@ const Home = () => {
             draggable
             id="drag1"
             onDragStart={(e) => handleDragStart(e, e.target.id)}
-            className="drag-items"
-            name="movex"
+            className="drag-items1"
+            name="forward"
             onClick={handleClick}
           >
-            {"Move-x "}
-            <input
-              type="number"
-              defaultValue="0"
-              required
-              onChange={(e) => setPos(parseInt(e.target.value))}
-            />
+            {"Forward 15-steps"}
           </div>
           <div
             draggable
             id="drag2"
             onDragStart={(e) => handleDragStart(e, e.target.id)}
-            className="drag-items"
-            name="rotate"
+            className="drag-items1"
+            name="backward"
             onClick={handleClick}
           >
-            {"Rotate"}
-            <input
-              type="number"
-              defaultValue="0"
-              onChange={(e) => setAngle(parseInt(e.target.value))}
-            />
+            {"Backward 15-steps"}
           </div>
           <div
             draggable
             id="drag3"
             onDragStart={(e) => handleDragStart(e, e.target.id)}
-            className="drag-items"
+            className="drag-items1"
+            name="clockwise"
+            onClick={handleClick}
+          >
+            {"Rotate clockwise"}
+          </div>
+          <div
+            draggable
+            id="drag4"
+            onDragStart={(e) => handleDragStart(e, e.target.id)}
+            className="drag-items1"
+            name="anticlockwise"
+            onClick={handleClick}
+          >
+            {"Rotate anti-clockwise"}
+          </div>
+          <div
+            draggable
+            id="drag5"
+            onDragStart={(e) => handleDragStart(e, e.target.id)}
+            className="drag-items2"
             name="hide"
             onClick={handleClick}
           >
@@ -108,9 +185,9 @@ const Home = () => {
           </div>
           <div
             draggable
-            id="drag4"
+            id="drag6"
             onDragStart={(e) => handleDragStart(e, e.target.id)}
-            className="drag-items"
+            className="drag-items2"
             name="show"
             onClick={handleClick}
           >
@@ -118,33 +195,33 @@ const Home = () => {
           </div>
           <div
             draggable
-            id="drag5"
+            id="drag7"
             onDragStart={(e) => handleDragStart(e, e.target.id)}
-            className="drag-items2"
-            name="size"
+            className="drag-items3"
+            name="scaleup"
             onClick={handleClick}
           >
-            {"Size"}
-            <input
-              type="number"
-              defaultValue="1"
-              onChange={(e) => setSize(parseInt(e.target.value))}
-            />
+            {"Scale Up"}
           </div>
           <div
             draggable
-            id="drag6"
+            id="drag8"
             onDragStart={(e) => handleDragStart(e, e.target.id)}
-            className="drag-items1"
+            className="drag-items3"
+            name="scaledown"
+            onClick={handleClick}
+          >
+            {"Scale Down"}
+          </div>
+          <div
+            draggable
+            id="drag9"
+            onDragStart={(e) => handleDragStart(e, e.target.id)}
+            className="drag-items4"
             name="message"
             onClick={handleClick}
           >
             {"Broadcast"}
-            <input
-              type="text"
-              placeholder="message"
-              onChange={(e) => setMessage(e.target.value)}
-            />
           </div>
         </div>
       </div>
@@ -152,19 +229,21 @@ const Home = () => {
       {/* middle-container */}
 
       <div className="middle-container" id="middle-drop">
+        <button onClick={handleRun}>run</button>
         <div
+          onClick={()=>setToggle(!toggle)}
           onDragOver={handleDragOver}
-          id="drop-target"
+          id="drop-target1"
           onDrop={handleDrop}
           className="droppable"
-        >
-          {items.map((item,index)=>(
-            <div key={index}>
-             <div dangerouslySetInnerHTML={{ __html: item.outerHTML }} onClick={handleClick} />
-            </div>
-
-          ))}
-        </div>
+        ></div>
+        <div
+          onClick={()=>setToggle(!toggle)}
+          onDragOver={handleDragOver}
+          id="drop-target2"
+          onDrop={handleDrop}
+          className="droppable"
+        ></div>
       </div>
 
       {/* right-container  */}
