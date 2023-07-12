@@ -51,9 +51,6 @@ const Home = () => {
         break;
       case "reset":
         setPos(0);
-        setAngle(0);
-        setHide(false);
-        setSize(1);
         break;
       default:
         break;
@@ -151,9 +148,7 @@ const Home = () => {
       if (item.id === "drag10") {
         setTimeout(() => {
           setPos(0);
-          setAngle(0);
-          setHide(false);
-          setSize(1);
+         
         }, i * 1000);
       }
     }
