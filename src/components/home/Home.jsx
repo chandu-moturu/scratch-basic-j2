@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./home.css";
 import Cat from "../sprites/Cat";
 
+
 const Home = () => {
   const [angle, setAngle] = useState(0);
   const [pos, setPos] = useState(0);
@@ -69,7 +70,7 @@ const Home = () => {
     e.preventDefault();
   };
   const handleDrop = (e, id) => {
-    var childId = e.dataTransfer.getData("Text");
+    var childId = e.dataTransfer.getData("text");
     var element = document.getElementById(childId);
     // var targetarea = document.getElementById(id);
     // console.log(childId)
@@ -91,8 +92,13 @@ const Home = () => {
 
   const handleRun = () => {
     let item;
+    let x=items;
+    if(items.length<items2.length)
+    {
+      x=items2
+    }
     console.log(toggle);
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < x.length; i++) {
       if (toggle === 0) {
         item = items[i];
       }
@@ -263,7 +269,7 @@ const Home = () => {
 
       {/* middle-container */}
 
-      <div className="middle-container" id="middle-drop">
+      <div className="middle-container" >
         <button onClick={handleRun}>run</button>
         <select
           name="toggle"
@@ -274,7 +280,9 @@ const Home = () => {
           <option value={0}>List 1</option>
           <option value={1}>List 2</option>
         </select>
+        <div id="middle-drop" >
         <div
+   
           onDragOver={handleDragOver}
           id="drop-target1"
           onDrop={(e) => handleDrop(e, e.target.id)}
@@ -283,6 +291,7 @@ const Home = () => {
           list1
         </div>
         <div
+         
           onDragOver={handleDragOver}
           id="drop-target2"
           onDrop={(e) => handleDrop(e, e.target.id)}
@@ -290,6 +299,8 @@ const Home = () => {
         >
           list2
         </div>
+        </div>
+       
       </div>
 
       {/* right-container  */}
